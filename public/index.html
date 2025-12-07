@@ -111,6 +111,92 @@
             }
         }
 
+        /* TV Flash Overlay */
+        .tv-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            z-index: 2000;
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        .tv-overlay.tv-on {
+            animation: tvTurnOn 1.5s ease-out forwards;
+        }
+
+        .tv-overlay.tv-off {
+            animation: tvTurnOff 1.2s ease-in forwards;
+        }
+
+        @keyframes tvTurnOn {
+            0% {
+                opacity: 1;
+                transform: scaleY(0.001) scaleX(1);
+            }
+            20% {
+                opacity: 1;
+                transform: scaleY(0.05) scaleX(1);
+            }
+            40% {
+                opacity: 0.8;
+                transform: scaleY(0.3) scaleX(0.95);
+            }
+            60% {
+                opacity: 0.4;
+                transform: scaleY(0.7) scaleX(0.98);
+            }
+            80% {
+                opacity: 0.2;
+                transform: scaleY(0.95) scaleX(1);
+            }
+            100% {
+                opacity: 0;
+                transform: scaleY(1) scaleX(1);
+            }
+        }
+
+        @keyframes tvTurnOff {
+            0% {
+                opacity: 0;
+                transform: scaleY(1) scaleX(1);
+                filter: brightness(1);
+            }
+            20% {
+                opacity: 0.8;
+                transform: scaleY(1) scaleX(1);
+                filter: brightness(1.5);
+            }
+            40% {
+                opacity: 1;
+                transform: scaleY(0.8) scaleX(0.9);
+                filter: brightness(2);
+            }
+            60% {
+                opacity: 1;
+                transform: scaleY(0.3) scaleX(0.6);
+                filter: brightness(3);
+            }
+            80% {
+                opacity: 1;
+                transform: scaleY(0.05) scaleX(0.1);
+                filter: brightness(4);
+            }
+            95% {
+                opacity: 1;
+                transform: scaleY(0.001) scaleX(0.001);
+                filter: brightness(5);
+            }
+            100% {
+                opacity: 0;
+                transform: scaleY(0) scaleX(0);
+                filter: brightness(0);
+            }
+        }
+
         /* Terminal */
         .terminal-container {
             position: relative;
@@ -118,16 +204,35 @@
             animation: materialize 3s ease-out forwards;
         }
 
+        .terminal-container.fade-out {
+            animation: fadeOutScreen 0.5s ease-out forwards;
+        }
+
         @keyframes materialize {
             0% {
                 opacity: 0;
                 transform: scale(0.9) translateY(20px);
-                filter: blur(10px);
+                filter: blur(10px) brightness(0.5);
             }
             100% {
                 opacity: 1;
                 transform: scale(1) translateY(0);
-                filter: blur(0);
+                filter: blur(0) brightness(1);
+            }
+        }
+
+        @keyframes fadeOutScreen {
+            0% {
+                opacity: 1;
+                filter: brightness(1);
+            }
+            50% {
+                opacity: 1;
+                filter: brightness(1.5);
+            }
+            100% {
+                opacity: 0;
+                filter: brightness(3);
             }
         }
 
@@ -459,6 +564,8 @@
     </style>
 </head>
 <body>
+    <div class="tv-overlay" id="tvOverlay"></div>
+
     <div class="start-overlay" id="startOverlay">
         <span class="start-text">click anywhere to enter</span>
     </div>
@@ -674,10 +781,36 @@
         // Initialize
         const melody = new HauntingMelody();
         const startOverlay = document.getElementById('startOverlay');
+        const tvOverlay = document.getElementById('tvOverlay');
+        const terminalContainer = document.querySelector('.terminal-container');
+
+        // Create audio element for MP3 playback
+        const backgroundAudio = new Audio('background.mp3');
+        backgroundAudio.loop = false;
+        backgroundAudio.volume = 0.3;
 
         startOverlay.addEventListener('click', () => {
             startOverlay.classList.add('hidden');
             melody.start();
+
+            // Try to play background MP3 (will silently fail if file doesn't exist)
+            backgroundAudio.play().catch(() => {
+                // MP3 not found or autoplay blocked, continue without it
+            });
+
+            // Trigger TV turn on effect
+            tvOverlay.classList.add('tv-on');
+
+            // After all animations complete (15 seconds), trigger TV turn off
+            setTimeout(() => {
+                terminalContainer.classList.add('fade-out');
+
+                // Start TV turn off animation slightly after content fades
+                setTimeout(() => {
+                    tvOverlay.classList.remove('tv-on');
+                    tvOverlay.classList.add('tv-off');
+                }, 300);
+            }, 15000); // 15 seconds - adjust this to match when your content finishes
         });
 
         // Create floating particles
