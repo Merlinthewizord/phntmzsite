@@ -547,6 +547,31 @@
             z-index: 2;
         }
 
+        /* King Ghost Final Image */
+        .king-ghost {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+            height: 400px;
+            z-index: 3000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 2s ease-in;
+        }
+
+        .king-ghost.show {
+            opacity: 1;
+        }
+
+        .king-ghost img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 0 40px rgba(171, 159, 242, 0.6));
+        }
+
         /* Responsive */
         @media (max-width: 600px) {
             .terminal {
@@ -560,11 +585,19 @@
             .ghost {
                 opacity: 0.04;
             }
+            .king-ghost {
+                width: 280px;
+                height: 280px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="tv-overlay" id="tvOverlay"></div>
+
+    <div class="king-ghost" id="kingGhost">
+        <img src="king-ghost.png" alt="">
+    </div>
 
     <div class="start-overlay" id="startOverlay">
         <span class="start-text">click anywhere to enter</span>
@@ -783,11 +816,17 @@
         const startOverlay = document.getElementById('startOverlay');
         const tvOverlay = document.getElementById('tvOverlay');
         const terminalContainer = document.querySelector('.terminal-container');
+        const kingGhost = document.getElementById('kingGhost');
 
         // Create audio element for MP3 playback
-        const backgroundAudio = new Audio('overthetop.mp3');
+        const backgroundAudio = new Audio('background.mp3');
         backgroundAudio.loop = false;
         backgroundAudio.volume = 0.3;
+
+        // When audio ends, fade out the king ghost
+        backgroundAudio.addEventListener('ended', () => {
+            kingGhost.classList.remove('show');
+        });
 
         startOverlay.addEventListener('click', () => {
             startOverlay.classList.add('hidden');
@@ -809,6 +848,11 @@
                 setTimeout(() => {
                     tvOverlay.classList.remove('tv-on');
                     tvOverlay.classList.add('tv-off');
+
+                    // After TV turns off completely, show king ghost (1.2s is TV off animation duration)
+                    setTimeout(() => {
+                        kingGhost.classList.add('show');
+                    }, 1200);
                 }, 300);
             }, 15000); // 15 seconds - adjust this to match when your content finishes
         });
