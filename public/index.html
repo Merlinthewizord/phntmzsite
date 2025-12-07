@@ -67,7 +67,7 @@
             width: 100%;
             height: 100%;
             pointer-events: none;
-            background: 
+            background:
                 radial-gradient(ellipse at 50% 50%, transparent 0%, #0a0a0c 70%);
             z-index: 1;
         }
@@ -138,7 +138,7 @@
             padding: 30px 40px;
             min-width: 500px;
             max-width: 90vw;
-            box-shadow: 
+            box-shadow:
                 0 0 60px rgba(171, 159, 242, 0.1),
                 0 0 100px rgba(171, 159, 242, 0.05),
                 inset 0 0 60px rgba(171, 159, 242, 0.03);
@@ -215,13 +215,65 @@
             width: 0;
         }
 
+        .command-2 {
+            display: block;
+            margin-bottom: 15px;
+            animation: typeIn 2s steps(40) 3.5s forwards;
+            overflow: hidden;
+            white-space: nowrap;
+            width: 0;
+        }
+
         @keyframes typeIn {
             to { width: 100%; }
         }
 
+        /* Loading bar */
+        .loading-container {
+            margin: 20px 0;
+            opacity: 0;
+            animation: fadeIn 0.5s ease 5.5s forwards;
+        }
+
+        .loading-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(171, 159, 242, 0.2);
+            border-radius: 3px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .loading-fill {
+            height: 100%;
+            width: 0;
+            background: linear-gradient(90deg, #AB9FF2, #c4b8ff);
+            border-radius: 3px;
+            animation: loadingProgress 2.5s ease 5.5s forwards;
+            box-shadow: 0 0 10px rgba(171, 159, 242, 0.5);
+        }
+
+        @keyframes loadingProgress {
+            0% { width: 0; }
+            100% { width: 100%; }
+        }
+
+        .loading-text {
+            margin-top: 8px;
+            font-size: 12px;
+            color: rgba(171, 159, 242, 0.6);
+        }
+
         .message {
             display: block;
-            animation: fadeIn 2s ease 3.5s forwards;
+            animation: fadeIn 2s ease 8.5s forwards;
+            opacity: 0;
+        }
+
+        .message-2 {
+            display: block;
+            margin-top: 25px;
+            animation: fadeIn 2s ease 10.5s forwards;
             opacity: 0;
         }
 
@@ -249,7 +301,7 @@
             animation: blink 1s infinite;
             vertical-align: middle;
             opacity: 0;
-            animation: cursorAppear 0.1s 5.5s forwards, blink 1s 5.5s infinite;
+            animation: cursorAppear 0.1s 12.5s forwards, blink 1s 12.5s infinite;
         }
 
         @keyframes cursorAppear {
@@ -334,46 +386,46 @@
         }
 
         @keyframes ghostFloat1 {
-            0%, 100% { 
-                transform: translateY(0) translateX(0) rotate(0deg); 
+            0%, 100% {
+                transform: translateY(0) translateX(0) rotate(0deg);
                 opacity: 0.04;
             }
-            25% { 
-                transform: translateY(-40px) translateX(20px) rotate(8deg); 
+            25% {
+                transform: translateY(-40px) translateX(20px) rotate(8deg);
                 opacity: 0.08;
             }
-            50% { 
-                transform: translateY(-10px) translateX(-10px) rotate(-3deg); 
+            50% {
+                transform: translateY(-10px) translateX(-10px) rotate(-3deg);
                 opacity: 0.05;
             }
-            75% { 
-                transform: translateY(30px) translateX(15px) rotate(-6deg); 
+            75% {
+                transform: translateY(30px) translateX(15px) rotate(-6deg);
                 opacity: 0.07;
             }
         }
 
         @keyframes ghostFloat2 {
-            0%, 100% { 
-                transform: translateY(0) translateX(0) rotate(0deg) scale(1); 
+            0%, 100% {
+                transform: translateY(0) translateX(0) rotate(0deg) scale(1);
                 opacity: 0.05;
             }
-            33% { 
-                transform: translateY(-50px) translateX(-30px) rotate(-10deg) scale(1.05); 
+            33% {
+                transform: translateY(-50px) translateX(-30px) rotate(-10deg) scale(1.05);
                 opacity: 0.09;
             }
-            66% { 
-                transform: translateY(20px) translateX(25px) rotate(5deg) scale(0.95); 
+            66% {
+                transform: translateY(20px) translateX(25px) rotate(5deg) scale(0.95);
                 opacity: 0.04;
             }
         }
 
         @keyframes ghostFloat3 {
-            0%, 100% { 
-                transform: translateY(0) translateX(0) rotate(0deg); 
+            0%, 100% {
+                transform: translateY(0) translateX(0) rotate(0deg);
                 opacity: 0.03;
             }
-            50% { 
-                transform: translateY(-60px) translateX(40px) rotate(12deg); 
+            50% {
+                transform: translateY(-60px) translateX(40px) rotate(12deg);
                 opacity: 0.08;
             }
         }
@@ -411,14 +463,14 @@
         <span class="start-text">click anywhere to enter</span>
     </div>
 
-    <div class="ghost ghost-1"><img src="ghost.png" alt=""></div>
-    <div class="ghost ghost-2"><img src="ghost.png" alt=""></div>
-    <div class="ghost ghost-3"><img src="ghost.png" alt=""></div>
-    <div class="ghost ghost-4"><img src="ghost.png" alt=""></div>
-    <div class="ghost ghost-5"><img src="ghost.png" alt=""></div>
+    <div class="ghost ghost-1"><img src="ghost.svg" alt=""></div>
+    <div class="ghost ghost-2"><img src="ghost.svg" alt=""></div>
+    <div class="ghost ghost-3"><img src="ghost.svg" alt=""></div>
+    <div class="ghost ghost-4"><img src="ghost.svg" alt=""></div>
+    <div class="ghost ghost-5"><img src="ghost.svg" alt=""></div>
 
     <div class="particles" id="particles"></div>
-    
+
     <div class="fog"></div>
     <div class="vignette"></div>
 
@@ -431,11 +483,27 @@
             </div>
             <div class="terminal-content">
                 <span class="command"><span class="prompt">></span> initializing...</span>
+                <span class="command-2"><span class="prompt">></span> npm install phntmz</span>
+
+                <div class="loading-container">
+                    <div class="loading-bar">
+                        <div class="loading-fill"></div>
+                    </div>
+                    <div class="loading-text">installing dependencies...</div>
+                </div>
+
                 <span class="message">
                     <span class="message-line">open <span class="highlight">phantom wallet</span></span>
                     <span class="message-line">and search <span class="highlight">phntmz</span></span>
                     <span class="message-line" style="margin-top: 20px; opacity: 0.6;">that is where we will be</span>
                 </span>
+
+                <span class="message-2">
+                    <span class="message-line" style="opacity: 0.7; font-size: 14px;">No X, No TG</span>
+                    <span class="message-line" style="opacity: 0.7; font-size: 14px;">Underground, Purposeful</span>
+                    <span class="message-line" style="margin-top: 12px;"><span class="highlight">Join the Movement.</span></span>
+                </span>
+
                 <span class="cursor"></span>
             </div>
         </div>
@@ -461,23 +529,23 @@
                 const osc = this.audioContext.createOscillator();
                 const gainNode = this.audioContext.createGain();
                 const filter = this.audioContext.createBiquadFilter();
-                
+
                 osc.type = 'sine';
                 osc.frequency.value = freq;
-                
+
                 filter.type = 'lowpass';
                 filter.frequency.value = 800;
                 filter.Q.value = 1;
-                
+
                 gainNode.gain.value = gain;
-                
+
                 osc.connect(filter);
                 filter.connect(gainNode);
                 gainNode.connect(this.masterGain);
-                
+
                 osc.start();
                 this.nodes.push({ osc, gainNode, filter });
-                
+
                 return { osc, gainNode, filter };
             }
 
@@ -485,12 +553,12 @@
                 // Deep bass drone
                 this.createDrone(55, 0.08);  // A1
                 this.createDrone(82.5, 0.06); // E2
-                
+
                 // Ethereal mid tones
                 const pad1 = this.createDrone(220, 0.04);  // A3
                 const pad2 = this.createDrone(277.18, 0.03); // C#4
                 const pad3 = this.createDrone(329.63, 0.025); // E4
-                
+
                 // Slow modulation for eeriness
                 this.modulateFrequency(pad1.osc, 220, 2, 0.05);
                 this.modulateFrequency(pad2.osc, 277.18, 3, 0.08);
@@ -512,41 +580,41 @@
             createWhispers() {
                 const playWhisper = () => {
                     if (!this.isPlaying) return;
-                    
+
                     const osc = this.audioContext.createOscillator();
                     const gain = this.audioContext.createGain();
                     const filter = this.audioContext.createBiquadFilter();
-                    
+
                     // Random ghostly frequency
                     const frequencies = [440, 493.88, 523.25, 659.25, 783.99];
                     osc.frequency.value = frequencies[Math.floor(Math.random() * frequencies.length)];
                     osc.type = 'sine';
-                    
+
                     filter.type = 'bandpass';
                     filter.frequency.value = 1000 + Math.random() * 500;
                     filter.Q.value = 10;
-                    
+
                     gain.gain.value = 0;
-                    
+
                     osc.connect(filter);
                     filter.connect(gain);
                     gain.connect(this.masterGain);
-                    
+
                     const now = this.audioContext.currentTime;
                     const duration = 3 + Math.random() * 4;
-                    
+
                     // Fade in and out
                     gain.gain.setValueAtTime(0, now);
                     gain.gain.linearRampToValueAtTime(0.02 + Math.random() * 0.02, now + duration * 0.3);
                     gain.gain.linearRampToValueAtTime(0, now + duration);
-                    
+
                     osc.start(now);
                     osc.stop(now + duration);
-                    
+
                     // Schedule next whisper
                     setTimeout(playWhisper, (4 + Math.random() * 6) * 1000);
                 };
-                
+
                 // Start whispers after a delay
                 setTimeout(playWhisper, 2000);
             }
@@ -555,24 +623,24 @@
                 const convolver = this.audioContext.createConvolver();
                 const length = this.audioContext.sampleRate * 4;
                 const impulse = this.audioContext.createBuffer(2, length, this.audioContext.sampleRate);
-                
+
                 for (let channel = 0; channel < 2; channel++) {
                     const channelData = impulse.getChannelData(channel);
                     for (let i = 0; i < length; i++) {
                         channelData[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / length, 2);
                     }
                 }
-                
+
                 convolver.buffer = impulse;
                 return convolver;
             }
 
             start() {
                 if (this.isPlaying) return;
-                
+
                 this.init();
                 this.isPlaying = true;
-                
+
                 // Create reverb and connect
                 const reverb = this.createReverb();
                 const reverbGain = this.audioContext.createGain();
@@ -580,10 +648,10 @@
                 this.masterGain.connect(reverb);
                 reverb.connect(reverbGain);
                 reverbGain.connect(this.audioContext.destination);
-                
+
                 this.createGhostlyPad();
                 this.createWhispers();
-                
+
                 // Fade in
                 this.masterGain.gain.setValueAtTime(0, this.audioContext.currentTime);
                 this.masterGain.gain.linearRampToValueAtTime(0.15, this.audioContext.currentTime + 3);
@@ -592,9 +660,9 @@
             stop() {
                 if (!this.isPlaying) return;
                 this.isPlaying = false;
-                
+
                 this.masterGain.gain.linearRampToValueAtTime(0, this.audioContext.currentTime + 2);
-                
+
                 setTimeout(() => {
                     this.nodes.forEach(({ osc }) => osc.stop());
                     this.nodes = [];
