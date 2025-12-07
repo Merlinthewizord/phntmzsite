@@ -1,0 +1,11 @@
+{
+  "name": "phntmz",
+  "version": "1.0.0",
+  "description": "A haunting ghost portal",
+  "scripts": {
+    "dev": "npx serve public",
+    "start": "npx serve public"
+  },
+  "keywords": ["phantom", "ghost", "web3"],
+  "license": "MIT"
+}
