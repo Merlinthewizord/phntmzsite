@@ -563,6 +563,7 @@
 
         .king-ghost.show {
             opacity: 1;
+            pointer-events: auto;
         }
 
         .king-ghost img {
@@ -570,6 +571,47 @@
             height: 100%;
             object-fit: contain;
             filter: drop-shadow(0 0 40px rgba(171, 159, 242, 0.6));
+        }
+
+        /* Drop 1 Link */
+        .drop-link {
+            position: fixed;
+            bottom: 25%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3001;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 2s ease-in;
+        }
+
+        .drop-link.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .drop-link a {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            letter-spacing: 2px;
+            text-transform: lowercase;
+            color: #c4b8ff;
+            text-decoration: none;
+            text-shadow:
+                0 0 10px rgba(171, 159, 242, 0.8),
+                0 0 20px rgba(171, 159, 242, 0.6),
+                0 0 30px rgba(171, 159, 242, 0.4);
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .drop-link a:hover {
+            color: #ffffff;
+            text-shadow:
+                0 0 15px rgba(171, 159, 242, 1),
+                0 0 30px rgba(171, 159, 242, 0.8),
+                0 0 45px rgba(171, 159, 242, 0.6);
+            transform: scale(1.1);
         }
 
         /* Responsive */
@@ -589,6 +631,12 @@
                 width: 280px;
                 height: 280px;
             }
+            .drop-link {
+                bottom: 20%;
+            }
+            .drop-link a {
+                font-size: 12px;
+            }
         }
     </style>
 </head>
@@ -597,6 +645,10 @@
 
     <div class="king-ghost" id="kingGhost">
         <img src="king-ghost.png" alt="">
+    </div>
+
+    <div class="drop-link" id="dropLink">
+        <a href="https://fostermarketplace.app/phntmz/merch/1505" target="_blank">drop 1</a>
     </div>
 
     <div class="start-overlay" id="startOverlay">
@@ -817,15 +869,17 @@
         const tvOverlay = document.getElementById('tvOverlay');
         const terminalContainer = document.querySelector('.terminal-container');
         const kingGhost = document.getElementById('kingGhost');
+        const dropLink = document.getElementById('dropLink');
 
         // Create audio element for MP3 playback
         const backgroundAudio = new Audio('background.mp3');
         backgroundAudio.loop = false;
         backgroundAudio.volume = 0.3;
 
-        // When audio ends, fade out the king ghost
+        // When audio ends, fade out the king ghost and drop link
         backgroundAudio.addEventListener('ended', () => {
             kingGhost.classList.remove('show');
+            dropLink.classList.remove('show');
         });
 
         startOverlay.addEventListener('click', () => {
@@ -849,9 +903,10 @@
                     tvOverlay.classList.remove('tv-on');
                     tvOverlay.classList.add('tv-off');
 
-                    // After TV turns off completely, show king ghost (1.2s is TV off animation duration)
+                    // After TV turns off completely, show king ghost and drop link (1.2s is TV off animation duration)
                     setTimeout(() => {
                         kingGhost.classList.add('show');
+                        dropLink.classList.add('show');
                     }, 1200);
                 }, 300);
             }, 15000); // 15 seconds - adjust this to match when your content finishes
