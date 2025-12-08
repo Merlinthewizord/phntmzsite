@@ -688,6 +688,7 @@
                     <span class="message-line">open <span class="highlight">phantom wallet</span></span>
                     <span class="message-line">and search <span class="highlight">phntmz</span></span>
                     <span class="message-line" style="margin-top: 20px; opacity: 0.6;">that is where we will be</span>
+                    <span class="message-line" style="margin-top: 20px; font-size: 12px; opacity: 0.8; word-break: break-all; cursor: pointer;" id="caAddress" title="Click to copy">CA: <span class="highlight">E5PHoysRD731MvzVgPvperrdG9pKfGR2dMFyRqr3pump</span></span>
                 </span>
 
                 <span class="message-2">
@@ -932,6 +933,34 @@
             const y = (e.clientY / window.innerHeight - 0.5) * 10;
             terminal.style.transform = `translate(${x}px, ${y}px)`;
         });
+
+        // Copy CA address to clipboard
+        const caAddress = document.getElementById('caAddress');
+        if (caAddress) {
+            caAddress.addEventListener('click', () => {
+                const address = 'E5PHoysRD731MvzVgPvperrdG9pKfGR2dMFyRqr3pump';
+                navigator.clipboard.writeText(address).then(() => {
+                    const originalText = caAddress.innerHTML;
+                    caAddress.innerHTML = 'CA: <span class="highlight">Copied!</span>';
+                    setTimeout(() => {
+                        caAddress.innerHTML = originalText;
+                    }, 2000);
+                }).catch(() => {
+                    // Fallback for older browsers
+                    const textArea = document.createElement('textarea');
+                    textArea.value = address;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textArea);
+                    const originalText = caAddress.innerHTML;
+                    caAddress.innerHTML = 'CA: <span class="highlight">Copied!</span>';
+                    setTimeout(() => {
+                        caAddress.innerHTML = originalText;
+                    }, 2000);
+                });
+            });
+        }
     </script>
 </body>
 </html>
